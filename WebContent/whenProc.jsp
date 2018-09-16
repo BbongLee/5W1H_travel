@@ -7,52 +7,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="assets/css/card.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style>
-.cards-container {
-  -webkit-column-break-inside: avoid;
-          page-break-inside: avoid;
-               break-inside: avoid;
-}
-.cards-container .card {
-  display: inline-block;
-  overflow: visible;
-  background-color: #eee;
-  margin: 2rem auto;
-  padding:10px;
-  
-}
 
-@media only screen and (max-width: 600px) {
-  .cards-container {
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
-    column-count: 1;
-  }
-}
-@media only screen and (min-width: 601px) {
-  .cards-container {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
-  }
-}
-@media only screen and (min-width: 993px) {
-  .cards-container {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
-  }
-}
-.text-center {
-  text-align: center;
-}
-.card-title{
-font-size:130%;
-}
-
-</style>
 </head>
 <body>
  	<%
@@ -101,9 +59,8 @@ font-size:130%;
 				ArrayList<Travel> list = travelProc.getList(userID, query);
 		%>
 		<div class="container">
-		  	<div class="row">
 		  	<h1><%=when %></h1>
-		    	<div class="col s12 cards-container">
+		    	<ul class="grid">
 		<%
 		
 		for(int i = 0; i < list.size(); i++){
@@ -130,6 +87,23 @@ font-size:130%;
 			int HowShip = list.get(i).getHowShip();
 			int HowWalk = list.get(i).getHowWalk();
 			int HowBike = list.get(i).getHowBike();
+			
+			String who="";
+			switch(WhoNum) {
+		    case 1: who = "나 혼자";
+		         break;
+		    case 2: who = "친구들과";
+		         break;
+		    case 3: who = "가족과";
+	       		break;
+		    case 4: who = "연인과";
+	       		break;
+		    case 5: who = "패키지 여행객들과";
+	        	break;
+		    case 6: who = "또 다른 사람들과";
+	        	break;
+			}
+			
 			String how = "";
 			//🚗🚎🚲🚅🚂✈🚢🚈🚆🏃🚶
 			if(HowAirplane==1){
@@ -153,25 +127,26 @@ font-size:130%;
 			String timestamp = list.get(i).getTimestamp().substring(0,10);
 			String Why = list.get(i).getWhy();
 			int Secret = list.get(i).getSecret();
-			
-			
 		%>
-		 <div class="card blue-grey darken-1">
-         <div class="card-content white-text">
-           <span class="card-title"><%=WherePla%>, <%=where %></span>
-           <p><label>무엇을?</label><%= What %></p>
-           <p><label>뭐 타고 왔니?</label><%= how %></p>
-           <p><label>왜?</label><%= Why %></p>
-         </div>
-         <div class="card-action">
-           <a href="https://www.google.co.kr/maps/place/<%=WhereLoc%>">구글 지도 보기</a>
-         </div>
-        </div>
+		<li class="item">
+		    <div class="box">
+		      <h3 class="title"><span><%=WherePla%></span>
+		      </h3>
+		      <p class="byline"><%=where %></p>
+		      <p class="type"><%=WhenStart%>-<%=WhenEnd%></p>
+		      <p><label>누구랑?</label><%= who%>(<%= WhoWith%>) </p>
+	          <p><label>무엇을?</label><%= What %></p>
+	          <p><label>뭐 타고?</label><%= how %></p>
+	          <p><label>왜?</label><%= Why %></p>
+	          <br>
+	          <a href="https://www.google.co.kr/maps/place/<%=WhereLoc%>">구글 지도 보기</a>
+           	  <b><%=timestamp %></b>
+		    </div>
+		  </li>
 		<%
 		}//for
 		%>
-			</div>
-		</div>
+		</ul>
 	</div>
 </body>
 </html>
